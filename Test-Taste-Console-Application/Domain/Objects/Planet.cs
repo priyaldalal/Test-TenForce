@@ -47,7 +47,7 @@ namespace Test_Taste_Console_Application.Domain.Objects
             SemiMajorAxis = planetDto.SemiMajorAxis;
             AvgTemp = planetDto.AvgTemp;
             Moons = new Collection<Moon>();
-            if (planetDto.Moons != null)
+            if(planetDto.Moons != null)
             {
                 foreach (MoonDto moonDto in planetDto.Moons)
                 {
