@@ -15,12 +15,13 @@ namespace Test_Taste_Console_Application
     {
         static void Main(string[] args)
         {
-            var serviceCollection = new ServiceCollection();
+            var serviceCollection = new ServiceCollection();            
             //The ConfigureServices function configures the services.
             ConfigureServices(serviceCollection);
             
             //The RunServiceOperations function executes the code that can create the outputs.
             RunServiceOperations(serviceCollection);
+            Console.WriteLine("Execution completed successfully.");
         }
 
         private static void RunServiceOperations(IServiceCollection serviceCollection)

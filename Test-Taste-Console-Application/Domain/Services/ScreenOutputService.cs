@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Linq;
 using Test_Taste_Console_Application.Constants;
 using Test_Taste_Console_Application.Domain.Objects;
@@ -22,8 +22,10 @@ namespace Test_Taste_Console_Application.Domain.Services
 
         public void OutputAllPlanetsAndTheirMoonsToConsole()
         {
+        
             //The service gets all the planets from the API.
             var planets = _planetService.GetAllPlanets().ToArray();
+            Console.WriteLine("Generating screen output: All Planets and Their Moons");
 
             //If the planets aren't found, then the function stops and tells that to the user via the console.
             if (!planets.Any())
@@ -87,23 +89,24 @@ namespace Test_Taste_Console_Application.Domain.Services
                 ConsoleWriter.CreateEmptyLines(2);
 
                 /*
-                    This is an example of the output for the planet Earth:
-                    --------------------+--------------------+------------------------------+--------------------
-                    Planet's Number     |Planet's Id         |Planet's Semi-Major Axis      |Total Moons
-                    10                  |Terre               |0                             |1
-                    --------------------+--------------------+------------------------------+--------------------
-                    Moon's Number       |Moon's Id
-                    1                   |La Lune
-                    --------------------+------------------------------------------------------------------------
-                */
+                   This is an example of the output for the planet Earth:
+                   --------------------+--------------------+------------------------------+--------------------
+                   Planet's Number     |Planet's Id         |Planet's Semi-Major Axis      |Total Moons
+                   10                  |Terre               |0                             |1
+                   --------------------+--------------------+------------------------------+--------------------
+                   Moon's Number       |Moon's Id
+                   1                   |La Lune
+                   --------------------+------------------------------------------------------------------------
+               */
             }
         }
 
         public void OutputAllMoonsAndTheirMassToConsole()
         {
+            Console.WriteLine("Generating screen output: All Moons and Their Mass...");
             //The function works the same way as the PrintAllPlanetsAndTheirMoonsToConsole function. You can find more comments there.
             var moons = _moonService.GetAllMoons().ToArray();
-            
+
             if (!moons.Any())
             {
                 Console.WriteLine(OutputString.NoMoonsFound);
@@ -131,8 +134,8 @@ namespace Test_Taste_Console_Application.Domain.Services
 
             ConsoleWriter.CreateLine(columnSizesForMoons);
             ConsoleWriter.CreateEmptyLines(2);
-            
-            /*
+
+ /*
                 This is an example of the output for the moon around the earth:
                 --------------------+--------------------+------------------------------+--------------------
                 Moon's Number       |Moon's Id           |Moon's Mass Exponent          |Moon's Mass Value
@@ -145,6 +148,7 @@ namespace Test_Taste_Console_Application.Domain.Services
 
         public void OutputAllPlanetsAndTheirAverageMoonGravityToConsole()
         {
+            Console.WriteLine("Generating screen output: All Planets and Their Average Moon Gravity...");
             //The function works the same way as the PrintAllPlanetsAndTheirMoonsToConsole function. You can find more comments there.
             var planets = _planetService.GetAllPlanets().ToArray();
             if (!planets.Any())
@@ -166,24 +170,55 @@ namespace Test_Taste_Console_Application.Domain.Services
             {
                 if(planet.HasMoons())
                 {
-                    ConsoleWriter.CreateText(new string[] { $"{planet.Id}", $"{planet.AverageMoonGravity}" }, columnSizes);
+                    ConsoleWriter.CreateText(new string[] { CultureInfoUtility.TextInfo.ToTitleCase(planet.Id), $"{planet.AverageMoonGravity:F4}" }, columnSizes);
                 }
                 else
                 {
-                    ConsoleWriter.CreateText(new string[] { $"{planet.Id}", $"-" }, columnSizes);
+                    ConsoleWriter.CreateText(new string[] { CultureInfoUtility.TextInfo.ToTitleCase(planet.Id), "-" }, columnSizes);
                 }
             }
 
             ConsoleWriter.CreateLine(columnSizes);
             ConsoleWriter.CreateEmptyLines(2);
-            
+
             /*
-                --------------------+--------------------------------------------------
-                Planet's Number     |Planet's Average Moon Gravity
-                --------------------+--------------------------------------------------
-                1                   |0.0f
-                --------------------+--------------------------------------------------
-            */
+               --------------------+--------------------------------------------------
+               Planet's Number     |Planet's Average Moon Gravity
+               --------------------+--------------------------------------------------
+               1                   |0.0f
+               --------------------+--------------------------------------------------
+           */
+        }
+
+        public void OutputAllPlanetsAndTheirAverageMoonTemperatureToConsole()
+        {
+            Console.WriteLine("Generating screen output: All Planets with Moons and Their Average Moon Temperature...");
+            var planets = _planetService.GetAllPlanets().ToArray();
+                if (!planets.Any())
+                {
+                    Console.WriteLine(OutputString.NoPlanetsFound);
+                    return;
+                }
+
+            var columnSizes = new[] { 20, 40 };
+                var columnLabels = new[]
+                {
+                    OutputString.PlanetId, OutputString.PlanetMoonAverageTemperature
+                };
+
+        ConsoleWriter.CreateHeader(columnLabels, columnSizes);
+
+                foreach (Planet planet in planets)
+                {
+                    if (planet.HasMoons())  {
+                            ConsoleWriter.CreateText(new string[] { CultureInfoUtility.TextInfo.ToTitleCase(planet.Id), $"{planet.AverageMoonTemperature:F2}" }, columnSizes);
+                        }
+                }
+
+            ConsoleWriter.CreateLine(columnSizes);
+
+
+            ConsoleWriter.CreateEmptyLines(2);
         }
     }
 }
