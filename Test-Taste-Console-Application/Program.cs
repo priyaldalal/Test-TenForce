@@ -28,9 +28,9 @@ namespace Test_Taste_Console_Application
         {
             try
             {
-                Console.WriteLine("================================================================================");
-                Console.WriteLine("          TenForce Hiring - Solar System OpenData Application Execution         ");
-                Console.WriteLine("================================================================================");
+                Console.WriteLine("======================================================================");
+                Console.WriteLine("TenForce Hiring - Solar System OpenData Application Execution");
+                Console.WriteLine("=========================================================================");
                 Console.WriteLine();
                 Console.WriteLine("Initializing application services...");
 
@@ -44,9 +44,9 @@ namespace Test_Taste_Console_Application
                 // Execute screen and file operations
                 RunServiceOperations(serviceCollection);
 
-                Console.WriteLine("================================================================================");
+                Console.WriteLine("=========================================================");
                 Console.WriteLine("Execution completed successfully. All outputs generated.");
-                Console.WriteLine("================================================================================");
+                Console.WriteLine("============================================================");
             }
             catch (Exception ex)
             {
@@ -76,30 +76,26 @@ namespace Test_Taste_Console_Application
                     throw new InvalidOperationException("Failed to resolve output services from Dependency Injection container.");
                 }
 
-                // -----------------------------------------------------------------------------------
-                // STAGE 1: SCREEN OUTPUT OPERATIONS
-                // -----------------------------------------------------------------------------------
-                Console.WriteLine("--------------------------------------------------------------------------------");
+
                 Console.WriteLine("STAGE 1: Executing Console Screen Outputs");
-                Console.WriteLine("--------------------------------------------------------------------------------");
                 Console.WriteLine();
 
                 try
                 {
                     // 1. Output Planets with moons and their average moon temperature (New Extension Feature)
-                    Console.WriteLine("[Step 1/8] Generating console output: Planets with Moons and Average Moon Temperature...");
+                    Console.WriteLine("Generating console output: Planets with Moons and Average Moon Temperature...");
                     screenOutputService.OutputAllPlanetsAndTheirAverageMoonTemperatureToConsole();
 
                     // 2. Output Planets and their average moon gravity
-                    Console.WriteLine("[Step 2/8] Generating console output: Planets and Average Moon Gravity...");
+                    Console.WriteLine("Generating console output: Planets and Average Moon Gravity...");
                     screenOutputService.OutputAllPlanetsAndTheirAverageMoonGravityToConsole();
 
                     // 3. Output Moons and their mass values
-                    Console.WriteLine("[Step 3/8] Generating console output: Moons and Their Mass...");
+                    Console.WriteLine("Generating console output: Moons and Their Mass...");
                     screenOutputService.OutputAllMoonsAndTheirMassToConsole();
 
                     // 4. Output Planets and their moons list
-                    Console.WriteLine("[Step 4/8] Generating console output: Planets and Their Moons...");
+                    Console.WriteLine("Generating console output: Planets and Their Moons...");
                     screenOutputService.OutputAllPlanetsAndTheirMoonsToConsole();
                 }
                 catch (Exception exception)
@@ -109,30 +105,25 @@ namespace Test_Taste_Console_Application
                     System.Diagnostics.Debug.WriteLine($"{ExceptionMessage.ScreenOutputOperationFailed}{exception.Message}");
                 }
 
-                // -----------------------------------------------------------------------------------
-                // STAGE 2: DISK FILE OUTPUT OPERATIONS
-                // -----------------------------------------------------------------------------------
-                Console.WriteLine("--------------------------------------------------------------------------------");
                 Console.WriteLine("STAGE 2: Executing Disk File CSV Outputs");
-                Console.WriteLine("--------------------------------------------------------------------------------");
                 Console.WriteLine();
 
                 try
                 {
                     // 5. Output Planets with moons and their average moon temperature to CSV file on disk
-                    Console.WriteLine("[Step 5/8] Writing CSV file to disk: AllPlanetsAndTheirAverageMoonTemperature.csv...");
+                    Console.WriteLine("Writing CSV file to disk: AllPlanetsAndTheirAverageMoonTemperature.csv...");
                     fileOutputService.OutputAllPlanetsAndTheirAverageMoonTemperatureToFile();
 
                     // 6. Output Planets and their average moon gravity to CSV file on disk
-                    Console.WriteLine("[Step 6/8] Writing CSV file to disk: AllPlanetsAndTheirAverageMoonGravity.csv...");
+                    Console.WriteLine("Writing CSV file to disk: AllPlanetsAndTheirAverageMoonGravity.csv...");
                     fileOutputService.OutputAllPlanetsAndTheirAverageMoonGravityToFile();
 
                     // 7. Output Moons and their mass to CSV file on disk
-                    Console.WriteLine("[Step 7/8] Writing CSV file to disk: AllMoonsAndTheirMass.csv...");
+                    Console.WriteLine("Writing CSV file to disk: AllMoonsAndTheirMass.csv...");
                     fileOutputService.OutputAllMoonsAndTheirMassToFile();
 
                     // 8. Output Planets and their moons to CSV file on disk
-                    Console.WriteLine("[Step 8/8] Writing CSV file to disk: AllPlanetsAndTheirMoons.csv...");
+                    Console.WriteLine("Writing CSV file to disk: AllPlanetsAndTheirMoons.csv...");
                     fileOutputService.OutputAllPlanetsAndTheirMoonsToFile();
                 }
                 catch (Exception exception)
