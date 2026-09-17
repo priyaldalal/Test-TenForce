@@ -1,73 +1,67 @@
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using Newtonsoft.Json;
-using Test_Taste_Console_Application.Constants;
+using System.Linq;
 using Test_Taste_Console_Application.Domain.DataTransferObjects;
-using Test_Taste_Console_Application.Domain.DataTransferObjects.JsonObjects;
 using Test_Taste_Console_Application.Domain.Objects;
+using Test_Taste_Console_Application.Domain.Repositories.Interfaces;
 using Test_Taste_Console_Application.Domain.Services.Interfaces;
 using Test_Taste_Console_Application.Utilities;
-using System;
-using System.Linq;
 
 namespace Test_Taste_Console_Application.Domain.Services
 {
-    /// <inheritdoc />
+    /// <summary>
+    /// Business Service layer for managing and processing Moon domain objects.
+    /// Maps Moon DTOs into domain objects and caches datasets in memory.
+    /// </summary>
     public class MoonService : IMoonService
     {
-        private readonly HttpClientService _httpClientService;
+        private readonly IMoonRepository _moonRepository;
         private IEnumerable<Moon> _cachedMoons;
 
-
-        public MoonService(HttpClientService httpClientService)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MoonService"/> class.
+        /// </summary>
+        /// <param name="moonRepository">The moon data access repository.</param>
+        public MoonService(IMoonRepository moonRepository)
         {
-            _httpClientService = httpClientService;
+            _moonRepository = moonRepository ?? throw new ArgumentNullException(nameof(moonRepository));
         }
 
+        /// <summary>
+        /// Retrieves all moons and their mass values from the data access repository.
+        /// Returns cached dataset on subsequent calls for high performance.
+        /// </summary>
+        /// <returns>Collection of <see cref="Moon"/> domain objects.</returns>
         public IEnumerable<Moon> GetAllMoons()
         {
+            // Return cached dataset if already loaded
             if (_cachedMoons != null && _cachedMoons.Any())
             {
                 return _cachedMoons;
             }
 
-            Console.WriteLine("Loading moons data from API");
+            Console.WriteLine("Loading moons data from API...");
             var allMoons = new Collection<Moon>();
 
             try
             {
-                var response = _httpClientService.Client
-                    .GetAsync(UriPath.GetAllMoonsWithMassQueryParameters)
-                    .Result;
+                // Fetch DTOs from repository (Data Access Layer)
+                var moonDtos = _moonRepository.GetMoonDtosWithMass();
 
-                //If the status code isn't 200-299, then the function returns an empty collection.
-                if (!response.IsSuccessStatusCode)
+                foreach (MoonDto moonDto in moonDtos)
                 {
-                    Logger.Instance.Warn($"{LoggerMessage.GetRequestFailed}{response.StatusCode}");
-                    Console.WriteLine($"{LoggerMessage.GetRequestFailed}{response.StatusCode}");
-                    return allMoons;
-                }
-
-                var content = response.Content.ReadAsStringAsync().Result;
-                
-                //The JSON converter uses DTO's, that can be found in the DataTransferObjects folder, to deserialize the response content.
-                //The JSON converter uses DTO's to deserialize response content.
-                var results = JsonConvert.DeserializeObject<JsonResult<MoonDto>>(content);
-
-                if (results == null || results.Bodies == null) 
-                    return allMoons;
-
-                foreach (MoonDto moonDto in results.Bodies)
-                {
+                    // Convert DTO into domain object
                     allMoons.Add(new Moon(moonDto));
                 }
             }
             catch (Exception ex)
             {
-                Logger.Instance.Error($"Error loading moons: {ex.Message}");
-                Console.WriteLine($"Error loading moons: {ex.Message}");
+                Logger.Instance.Error($"Error in MoonService.GetAllMoons: {ex.Message}", ex);
+                Console.WriteLine($"Error processing moons data: {ex.Message}");
             }
 
+            // Cache dataset in memory
             _cachedMoons = allMoons;
             return allMoons;
         }
