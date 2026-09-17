@@ -1,4 +1,4 @@
-﻿namespace Test_Taste_Console_Application.Constants
+namespace Test_Taste_Console_Application.Constants
 {
     public static class UriPath
     {
@@ -6,7 +6,7 @@
         private const string BodiesUri = "/rest/bodies";
 
         public const string GetAllPlanetsWithMoonsQueryParameters =
-            BodiesUri + "?data=id,semiMajorAxis,moons,moon,rel&filter[]=isPlanet,neq,false";
+            BodiesUri + "?data=id,semiMajorAxis,moons,moon,rel,avgTemp&filter[]=isPlanet,neq,false";
 
         public const string GetAllMoonsWithMassQueryParameters = BodiesUri +
                                                "?data=id,mass,massValue,massExponent,massValue&filter[]=aroundPlanet,gt,null";
