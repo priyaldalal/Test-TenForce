@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.IO;
 
 namespace Test_Taste_Console_Application.Constants
@@ -11,5 +11,6 @@ namespace Test_Taste_Console_Application.Constants
         public const string AllMoonsAndTheirMassFile = "AllMoonsAndTheirMass.csv";
         public const string AllPlanetsAndTheirMoonsFile = "AllPlanetsAndTheirMoons.csv";
         public const string AllPlanetsAndTheirAverageMoonTemperatureFile = "AllPlanetsAndTheirAverageMoonTemperature.csv";
+        public const string AllPlanetsAndTheirAverageMoonGravityFile = "AllPlanetsAndTheirAverageMoonGravity.csv";
     }
 }
