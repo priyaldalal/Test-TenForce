@@ -98,12 +98,3 @@ When the application runs, it generates four CSV files in the `FileOutput` direc
 - Newtonsoft.Json (13.0.1)
 - log4net (3.3.0)
 
-## Branching and Submission
-
-1. Commit your intermediate changes to your feature branch (`TenForce-yourinitials`).
-2. When completed, merge your feature branch into `main`:
-   ```bash
-   git checkout main
-   git merge TenForce-yourinitials
-   ```
-3. Push your branch to remote and share your repository link.
